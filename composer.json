@@ -1,0 +1,18 @@
+{
+    "name": "zaman/laravel-repo",
+    "description": "One command repo generation for Laravel",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Zaman\\Repo\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Zaman Shovon",
+            "email": "zaman.monir20188@gmail.com"
+        }
+    ],
+    "require": {}
+}
