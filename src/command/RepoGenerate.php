@@ -3,6 +3,7 @@
 namespace Zaman\Repo\Command;
 
 use Illuminate\Console\Command;
+use Zaman\Repo\Builder\TemplateBuilder;
 
 class RepoGenerate extends Command
 {
@@ -11,7 +12,7 @@ class RepoGenerate extends Command
      *
      * @var string
      */
-    protected $signature = 'repo:generate';
+    protected $signature = 'generate:repo {name} {--m}';
 
     /**
      * The console command description.
@@ -25,6 +26,16 @@ class RepoGenerate extends Command
      */
     public function handle()
     {
+        $templateBuild = new TemplateBuilder;
+        $name = $this->argument('name');
+        $isModel = $this->option('m');
+
+        $templateBuild->setInterfaceName($name);
+        if($isModel) {
+            $templateBuild->setModelName($isModel);
+        }
+        $templateBuild->generate();
+
         $this->info("Hi there it works");
     }
 }

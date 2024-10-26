@@ -1,0 +1,33 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ interfaceNamespace }}\{{ className }}RepositoryInterface;
+
+class {{ className }}Repository implements {{ className }}RepositoryInterface
+{
+    public function all()
+    {
+        // code here....
+    }
+
+    public function find($id)
+    {
+        // code here....
+    }
+
+    public function create(array $data)
+    {
+        // code here....
+    }
+
+    public function update($id, array $data)
+    {
+        // code here....
+    }
+
+    public function delete($id)
+    {
+        // code here....
+    }
+}
