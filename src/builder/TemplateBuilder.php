@@ -2,6 +2,8 @@
 
 namespace Zaman\Repo\Builder;
 
+use Zaman\Repo\Classes\FileProcessor;
+
 final readonly class TemplateBuilder
 {
     /**
@@ -24,6 +26,8 @@ final readonly class TemplateBuilder
      */
     public string $modelPathName;
 
+    public readonly FileProcessor $fileProcessor;
+
     /**
      * @param string $interfaceName
      *
@@ -36,6 +40,16 @@ final readonly class TemplateBuilder
     }
 
     /**
+     * @param string $interfaceName
+     *
+     * @return TemplateBuilder
+     */
+    function getInterfaceName() : TemplateBuilder
+    {
+        return $this;
+    }
+
+    /**
      * @param string|null $modelName
      *
      * @return TemplateBuilder
@@ -43,6 +57,7 @@ final readonly class TemplateBuilder
     function setModelName(?string $modelName) : TemplateBuilder
     {
         $this->modelName = $modelName;
+        $this->setModelPathName();
         return $this;
     }
 
@@ -51,8 +66,11 @@ final readonly class TemplateBuilder
      *
      * @return TemplateBuilder
      */
-    function setInterfacePathName(string $interfacePathName) : TemplateBuilder
+    function setInterfacePathName(?string $interfacePathName) : TemplateBuilder
     {
+        if($interfacePathName) {
+
+        }
         $this->interfacePathName = $interfacePathName;
         return $this;
     }
