@@ -4,7 +4,7 @@ namespace Zaman\Repo\Classes;
 
 use Illuminate\Support\Facades\File;
 
-class FileProcessor
+class AttributeGenerator
 {
     const PERM_ALL = 777;
 
@@ -13,9 +13,13 @@ class FileProcessor
      *
      * @return array
      */
-    function getContractNameWithPath(string $name) : array
+    function getContractNameWithPathAndNamespace(string $name) : array
     {
-        [$contractName, $path, $namespace] = [$name, null, null];
+        [$contractName, $path, $namespace] = [
+            $name,
+            $this->getDefaultContractPath(),
+            $this->getDefaultContractNamespace()
+        ];
         if(str_contains($name, "/")) {
             $splittedString = explode("/", $name);
             $lastIndex = count($splittedString) - 1;
@@ -57,5 +61,38 @@ class FileProcessor
     private function buildNameSpaceFromArr(array $arr) : string
     {
         return implode('\\', $arr);
+    }
+
+    /**
+     * @return string
+     */
+    private function getDefaultContractPath() : string
+    {
+        return config('repo-template.interface.path');
+    }
+
+    /**
+     * @return string
+     */
+    private function getDefaultModelPath() : string
+    {
+        return config('repo-template.model.path');
+    }
+
+    /**
+     * @return string
+     */
+    private function getDefaultContractNamespace() : string
+    {
+        return config('repo-template.interface.namespace');
+    }
+
+    /**
+     * @return string
+     */
+    private function getDefaultModelNamespace() : string
+    {
+        return config('repo-template.model.namespace');
+
     }
 }

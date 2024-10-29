@@ -2,14 +2,15 @@
 
 namespace Zaman\Repo\Builder;
 
-use Zaman\Repo\Classes\FileProcessor;
+use Zaman\Repo\Classes\AttributeGenerator;
+use Zaman\Repo\Classes\FileGenerator;
 
 final readonly class TemplateBuilder
 {
     /**
      * @var string
      */
-    public string $interfaceName;
+    public string $contractName;
 
     /**
      * @var string|null
@@ -19,34 +20,56 @@ final readonly class TemplateBuilder
     /**
      * @var string|null
      */
-    public string $interfacePathName;
+    public string $contractPathName;
+
+    /**
+     * @var string|null
+     */
+    public string $contractNameSpace;
 
     /**
      * @var string|null
      */
     public string $modelPathName;
 
-    public readonly FileProcessor $fileProcessor;
+    public readonly AttributeGenerator $fileProcessor;
 
     /**
-     * @param string $interfaceName
+     * @param string $contract
      *
      * @return TemplateBuilder
      */
-    function setInterfaceName(string $interfaceName) : TemplateBuilder
+    function setContract(string $contract) : TemplateBuilder
     {
-        $this->interfaceName = $interfaceName;
+        $this->setContractRepository($contract);
         return $this;
     }
 
     /**
-     * @param string $interfaceName
      *
-     * @return TemplateBuilder
+     * @return string
      */
-    function getInterfaceName() : TemplateBuilder
+    function getContractName() : string
     {
-        return $this;
+        return $this->contractName;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    function getContractPath() : string
+    {
+        return $this->contractPathName;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    function getContractNameSpace() : string
+    {
+        return $this->contractNameSpace;
     }
 
     /**
@@ -62,21 +85,21 @@ final readonly class TemplateBuilder
     }
 
     /**
-     * @param string $interfacePathName
+     * @param string $contractName
      *
      * @return TemplateBuilder
      */
-    function setInterfacePathName(?string $interfacePathName) : TemplateBuilder
+    function setContractRepository(string $contractName) : TemplateBuilder
     {
-        if($interfacePathName) {
-
-        }
-        $this->interfacePathName = $interfacePathName;
+        [$contract, $path, $namespace] = (new AttributeGenerator)
+                ->getContractNameWithPathAndNamespace($contractName);
+        $this->contractName = $contract;
+        $this->contractPathName = $path;
+        $this->contractNameSpace = $namespace;
         return $this;
     }
 
     /**
-     * @param string $interfacePathName
      *
      * @return TemplateBuilder
      */
@@ -91,12 +114,31 @@ final readonly class TemplateBuilder
         return $this;
     }
 
+    function generateContract() : void
+    {
+        $fileGeneratorClass = new FileGenerator;
+        $name = $this->getContractName();
+        $path = $this->getContractPath();
+        $namespace = $this->getContractNameSpace();
+        $fileGeneratorClass->generateContract(
+            $name,
+            $path,
+            $namespace,
+        );
+    }
+
     /**
      * @return void
      */
     function generate() : void
     {
-        dd("Hi its landing perfectly");
+        $this->generateContract();
+        dd(
+            "contract {$this->contractName}",
+            "contract {$this->contractPathName}",
+            "contract {$this->contractNameSpace}",
+            "Hi its landing perfectly"
+        );
     }
 
 }

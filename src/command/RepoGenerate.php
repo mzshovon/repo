@@ -30,7 +30,7 @@ class RepoGenerate extends Command
         $name = $this->argument('name');
         $isModel = $this->option('m');
 
-        $templateBuild->setInterfaceName($name);
+        $templateBuild->setContract($name);
         if($isModel) {
             $templateBuild->setModelName($isModel);
         }
