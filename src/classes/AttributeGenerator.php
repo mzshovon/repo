@@ -2,8 +2,6 @@
 
 namespace Zaman\Repo\Classes;
 
-use Illuminate\Support\Facades\File;
-
 class AttributeGenerator
 {
     const PERM_ALL = 777;
@@ -13,7 +11,7 @@ class AttributeGenerator
      *
      * @return array
      */
-    function getContractNameWithPathAndNamespace(string $name) : array
+    function getContractAttribute(string $name) : array
     {
         [$contractName, $path, $namespace] = [
             $name,
@@ -21,26 +19,40 @@ class AttributeGenerator
             $this->getDefaultContractNamespace()
         ];
         if(str_contains($name, "/")) {
-            $splittedString = explode("/", $name);
-            $lastIndex = count($splittedString) - 1;
-            $contractName = $splittedString[$lastIndex];
-            unset($splittedString[$lastIndex]);
-            $path = $this->buildPathNameFromArr($splittedString);
-            $namespace = $this->buildNameSpaceFromArr($splittedString);
+            [$contractName, $path, $namespace] = $this->parseAndSetAttribute($name);
         }
         return [$contractName, $path, $namespace];
     }
 
     /**
-     * @param string $path
+     * @param string $name
      *
-     * @return void
+     * @return array
      */
-    function checkAndMakeDir(string $path) : void
+    function getModelRepositoryAttribute(string $name) : array
     {
-        if(!File::exists($path)) {
-            File::makeDirectory($path, self::PERM_ALL, true);
-        }
+        [$modelRepositoryName, $path, $namespace] = [
+            $name,
+            $this->getDefaultModelPath(),
+            $this->getDefaultModelNamespace()
+        ];
+        return [$modelRepositoryName, $path, $namespace];
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return array
+     */
+    private function parseAndSetAttribute(string $name) : array
+    {
+        $splittedString = explode("/", $name);
+        $lastIndex = count($splittedString) - 1;
+        $name = $splittedString[$lastIndex];
+        unset($splittedString[$lastIndex]);
+        $path = $this->buildPathNameFromArr($splittedString);
+        $namespace = $this->buildNameSpaceFromArr($splittedString);
+        return [$name, $path, $namespace];
     }
 
     /**

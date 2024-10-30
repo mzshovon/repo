@@ -37,14 +37,40 @@ class FileGenerator
         );
     }
 
-    function generateRepository($name)
+    /**
+     * @param string $name
+     * @param string $path
+     * @param string $namespace
+     * @param string $interfaceNamespace
+     *
+     * @return void
+     */
+    function generateModelRepository(
+        string $name,
+        string $path,
+        string $namespace,
+        string $interfaceNamespace,
+    )
     {
-        // Code here...
+        $modelPath = "{$path}/{$name}Repository.php";
+        // Generate Interface
+        $this->generateFile(self::DEFAULT_MODEL_STUB, $modelPath, [
+            '{{ namespace }}' => $namespace,
+            '{{ className }}' => $name,
+            '{{ interfaceNamespace }}' => $interfaceNamespace,
+        ]);
+
+        // Register binding in AppServiceProvider
+        $this->registerBinding(
+            $namespace,
+            "{$name}Repository",
+            "{$name}"
+        );
     }
 
     protected function generateFile($stubPath, $filePath, $replacements)
     {
-        $content = File::get(__DIR__ .$stubPath);
+        $content = File::get(__DIR__ . $stubPath);
         // Replace placeholders with actual values
         foreach ($replacements as $placeholder => $value) {
             $content = str_replace($placeholder, $value, $content);

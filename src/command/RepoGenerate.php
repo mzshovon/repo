@@ -32,10 +32,13 @@ class RepoGenerate extends Command
 
         $templateBuild->setContract($name);
         if($isModel) {
-            $templateBuild->setModelName($isModel);
+            $templateBuild->setModel($isModel);
         }
-        $templateBuild->generate();
-
-        $this->info("Hi there it works");
+        $templateBuild = $templateBuild->generate();
+        if($templateBuild) {
+            $this->info("Repository created successfully!");
+        } else {
+            $this->error("No repository generated yet!");
+        }
     }
 }

@@ -5,7 +5,7 @@ namespace Zaman\Repo\Builder;
 use Zaman\Repo\Classes\AttributeGenerator;
 use Zaman\Repo\Classes\FileGenerator;
 
-final readonly class TemplateBuilder
+final class TemplateBuilder
 {
     /**
      * @var string
@@ -18,21 +18,31 @@ final readonly class TemplateBuilder
     public ?string $modelName;
 
     /**
-     * @var string|null
+     * @var string
      */
     public string $contractPathName;
 
     /**
-     * @var string|null
+     * @var string
      */
     public string $contractNameSpace;
 
     /**
+     * @var bool
+     */
+    public bool $hasModel = false;
+
+    /**
      * @var string|null
      */
-    public string $modelPathName;
+    public ?string $modelPathName;
 
-    public readonly AttributeGenerator $fileProcessor;
+    /**
+     * @var string|null
+     */
+    public ?string $modelNameSpace;
+
+    public readonly AttributeGenerator $attributeGenerator;
 
     /**
      * @param string $contract
@@ -42,6 +52,18 @@ final readonly class TemplateBuilder
     function setContract(string $contract) : TemplateBuilder
     {
         $this->setContractRepository($contract);
+        return $this;
+    }
+
+    /**
+     * @param bool $hasModel
+     *
+     * @return TemplateBuilder
+     */
+    function setModel(bool $hasModel) : TemplateBuilder
+    {
+        $this->hasModel = $hasModel;
+        $this->setModelRepository($this->contractName);
         return $this;
     }
 
@@ -73,15 +95,30 @@ final readonly class TemplateBuilder
     }
 
     /**
-     * @param string|null $modelName
      *
-     * @return TemplateBuilder
+     * @return string
      */
-    function setModelName(?string $modelName) : TemplateBuilder
+    function getModelName() : string
     {
-        $this->modelName = $modelName;
-        $this->setModelPathName();
-        return $this;
+        return $this->modelName;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    function getModelPath() : string
+    {
+        return $this->modelPathName;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    function getModelNameSpace() : string
+    {
+        return $this->modelNameSpace;
     }
 
     /**
@@ -92,7 +129,7 @@ final readonly class TemplateBuilder
     function setContractRepository(string $contractName) : TemplateBuilder
     {
         [$contract, $path, $namespace] = (new AttributeGenerator)
-                ->getContractNameWithPathAndNamespace($contractName);
+                ->getContractAttribute($contractName);
         $this->contractName = $contract;
         $this->contractPathName = $path;
         $this->contractNameSpace = $namespace;
@@ -100,20 +137,23 @@ final readonly class TemplateBuilder
     }
 
     /**
+     * @param string $name
      *
      * @return TemplateBuilder
      */
-    function setModelPathName() : TemplateBuilder
+    function setModelRepository(string $name) : TemplateBuilder
     {
-        $this->modelPathName = config('repo-template.model.path');
+        [$modelRepositoryName, $path, $namespace] = (new AttributeGenerator)
+                ->getModelRepositoryAttribute($name);
+        $this->modelName = $modelRepositoryName;
+        $this->modelPathName = $path;
+        $this->modelNameSpace = $namespace;
         return $this;
     }
 
-    function setNameSpace() : TemplateBuilder
-    {
-        return $this;
-    }
-
+    /**
+     * @return void
+     */
     function generateContract() : void
     {
         $fileGeneratorClass = new FileGenerator;
@@ -130,15 +170,31 @@ final readonly class TemplateBuilder
     /**
      * @return void
      */
-    function generate() : void
+    function generateModel() : void
+    {
+        $fileGeneratorClass = new FileGenerator;
+        $name = $this->getModelName();
+        $path = $this->getModelPath();
+        $namespace = $this->getModelNameSpace();
+        $contractNameSpace = $this->getContractNameSpace();
+        $fileGeneratorClass->generateModelRepository(
+            $name,
+            $path,
+            $namespace,
+            $contractNameSpace,
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    function generate() : bool
     {
         $this->generateContract();
-        dd(
-            "contract {$this->contractName}",
-            "contract {$this->contractPathName}",
-            "contract {$this->contractNameSpace}",
-            "Hi its landing perfectly"
-        );
+        if($this->hasModel) {
+            $this->generateModel();
+        }
+        return true;
     }
 
 }
