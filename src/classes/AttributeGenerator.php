@@ -14,7 +14,7 @@ class AttributeGenerator
     function getContractAttribute(string $name) : array
     {
         [$contractName, $path, $namespace] = [
-            $name,
+            ucfirst($name),
             $this->getDefaultContractPath(),
             $this->getDefaultContractNamespace()
         ];
@@ -32,7 +32,7 @@ class AttributeGenerator
     function getModelRepositoryAttribute(string $name) : array
     {
         [$modelRepositoryName, $path, $namespace] = [
-            $name,
+            ucfirst($name),
             $this->getDefaultModelPath(),
             $this->getDefaultModelNamespace()
         ];
@@ -48,7 +48,7 @@ class AttributeGenerator
     {
         $splittedString = explode("/", $name);
         $lastIndex = count($splittedString) - 1;
-        $name = $splittedString[$lastIndex];
+        $name = ucfirst($splittedString[$lastIndex]);
         unset($splittedString[$lastIndex]);
         $path = $this->buildPathNameFromArr($splittedString);
         $namespace = $this->buildNameSpaceFromArr($splittedString);

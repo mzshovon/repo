@@ -13,11 +13,16 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->commands(
             RepoGenerate::class
         );
+        $this->publishes([
+            __DIR__.'/config/repo-template.php' => config_path('repo-template.php'),
+        ], 'your-package-config');
     }
 
     public function register()
     {
-        //code ....
+        $this->mergeConfigFrom(
+            __DIR__.'/config/repo-template.php', 'repo-template'
+        );
     }
 
 }
