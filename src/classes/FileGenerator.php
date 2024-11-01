@@ -1,6 +1,6 @@
 <?php
 
-namespace Zaman\Repo\Classes;
+namespace Mzshovon\AutoRepo\Classes;
 
 use Exception;
 use Illuminate\Support\Facades\File;

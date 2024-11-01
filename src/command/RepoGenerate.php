@@ -1,10 +1,10 @@
 <?php
 
-namespace Zaman\Repo\Command;
+namespace Mzshovon\AutoRepo\Command;
 
 use Exception;
 use Illuminate\Console\Command;
-use Zaman\Repo\Builder\TemplateBuilder;
+use Mzshovon\AutoRepo\Builder\TemplateBuilder;
 
 class RepoGenerate extends Command
 {

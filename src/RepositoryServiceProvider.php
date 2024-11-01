@@ -1,9 +1,9 @@
 <?php
 
-namespace Zaman\Repo;
+namespace Mzshovon\AutoRepo;
 
 use Illuminate\Support\ServiceProvider;
-use Zaman\Repo\Command\RepoGenerate;
+use Mzshovon\AutoRepo\Command\RepoGenerate;
 
 class RepositoryServiceProvider extends ServiceProvider
 {

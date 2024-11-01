@@ -1,6 +1,6 @@
 <?php
 
-namespace Zaman\Repo\Tests;
+namespace Mzshovon\AutoRepo\Tests;
 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;

@@ -1,9 +1,9 @@
 <?php
 
-namespace Zaman\Repo;
+namespace Mzshovon\AutoRepo;
 
 use Illuminate\Support\ServiceProvider;
-use Zaman\Repo\Classes\RepositoryBindingManager;
+use Mzshovon\AutoRepo\Classes\RepositoryBindingManager;
 
 class BindServiceProvider extends ServiceProvider
 {

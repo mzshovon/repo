@@ -1,9 +1,9 @@
 <?php
 
-namespace Zaman\Repo\Builder;
+namespace Mzshovon\AutoRepo\Builder;
 
-use Zaman\Repo\Classes\AttributeGenerator;
-use Zaman\Repo\Classes\FileGenerator;
+use Mzshovon\AutoRepo\Classes\AttributeGenerator;
+use Mzshovon\AutoRepo\Classes\FileGenerator;
 
 final class TemplateBuilder
 {
