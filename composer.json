@@ -1,5 +1,5 @@
 {
-    "name": "mzshovon/laravel-repo",
+    "name": "mzshovon/auto-repo",
     "description": "Single command repo generation for Laravel",
     "type": "library",
     "license": "MIT",
