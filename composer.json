@@ -5,12 +5,12 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Mzshovon\\Repo\\": "src/"
+            "Mzshovon\\AutoRepo\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Zaman\\Repo\\": "tests/"
+            "Mzshovon\\AutoRepo\\": "tests/"
         }
     },
     "authors": [
