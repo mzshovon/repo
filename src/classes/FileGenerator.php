@@ -8,6 +8,16 @@ class FileGenerator
 {
     const DEFAULT_CONTRACT_STUB = "/../command/stubs/interface.stub";
     const DEFAULT_MODEL_STUB = "/../command/stubs/model.stub";
+    const BIND_CONFIG_PATH = "/../config/bind-repository.php";
+
+    /**
+     * @var string
+     */
+    private string $contractNaming = "Interface";
+    /**
+     * @var string
+     */
+    private string $repositoryNaming = "Repository";
 
     /**
      * @param string $name
@@ -22,19 +32,12 @@ class FileGenerator
         string $namespace
     ) : void
     {
-        $interfacePath = "{$path}/{$name}RepositoryInterface.php";
+        $interfacePath = "{$path}/{$name}{$this->repositoryNaming}{$this->contractNaming}.php";
         // Generate Interface
         $this->generateFile(self::DEFAULT_CONTRACT_STUB, $interfacePath, [
             '{{ namespace }}' => $namespace,
             '{{ className }}' => $name
         ]);
-
-        // Register binding in AppServiceProvider
-        $this->registerBinding(
-            $namespace,
-            "{$name}RepositoryInterface",
-            "{$name}Repository"
-        );
     }
 
     /**
@@ -52,7 +55,7 @@ class FileGenerator
         string $interfaceNamespace,
     )
     {
-        $modelPath = "{$path}/{$name}Repository.php";
+        $modelPath = "{$path}/{$name}{$this->repositoryNaming}.php";
         // Generate Interface
         $this->generateFile(self::DEFAULT_MODEL_STUB, $modelPath, [
             '{{ namespace }}' => $namespace,
@@ -62,13 +65,24 @@ class FileGenerator
 
         // Register binding in AppServiceProvider
         $this->registerBinding(
-            $namespace,
-            "{$name}Repository",
-            "{$name}"
+            $name,
+            $interfaceNamespace,
+            $namespace
         );
     }
 
-    protected function generateFile($stubPath, $filePath, $replacements)
+    /**
+     * @param string $stubPath
+     * @param string $filePath
+     * @param array $replacements
+     *
+     * @return void
+     */
+    protected function generateFile(
+        string $stubPath,
+        string $filePath,
+        array $replacements
+    ) : void
     {
         $content = File::get(__DIR__ . $stubPath);
         // Replace placeholders with actual values
@@ -80,8 +94,27 @@ class FileGenerator
         File::put($filePath, $content);
     }
 
-    protected function registerBinding($namespace, $interface, $implementation)
+    /**
+     * @param string $name
+     * @param string $contractNameSpace
+     * @param string $modelNameSpace
+     *
+     * @return void
+     */
+    protected function registerBinding(
+        string $name,
+        string $contractNameSpace,
+        string $modelNameSpace,
+    ) : void
     {
-        // Code here....
+        $config = __DIR__. self::BIND_CONFIG_PATH;
+        $interface = "{$contractNameSpace}\\{$name}{$this->repositoryNaming}{$this->contractNaming}";
+        $implementation = "{$modelNameSpace}\\{$name}{$this->repositoryNaming}";
+
+        $bindObject = new RepositoryBindingManager($config);
+        $bindObject->addBinding(
+            $interface,
+            $implementation
+        );
     }
 }

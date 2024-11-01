@@ -1,6 +1,6 @@
 {
     "name": "zaman/laravel-repo",
-    "description": "One command repo generation for Laravel",
+    "description": "Single command repo generation for Laravel",
     "type": "library",
     "license": "MIT",
     "autoload": {
