@@ -2,6 +2,6 @@
 
 return [
     'bind' => [
-        // Code here....
+        // Bind classes here....
     ]
 ];

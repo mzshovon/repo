@@ -8,6 +8,11 @@
             "Zaman\\Repo\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Zaman\\Repo\\": "tests/"
+        }
+    },
     "authors": [
         {
             "name": "Zaman Shovon",
@@ -16,5 +21,8 @@
     ],
     "require": {
         "php": ">=8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0"
     }
 }

@@ -47,11 +47,16 @@ class AttributeGenerator
     private function parseAndSetAttribute(string $name) : array
     {
         $splittedString = explode("/", $name);
+        $firstWord = strtolower($splittedString[0]);
         $lastIndex = count($splittedString) - 1;
         $name = ucfirst($splittedString[$lastIndex]);
         unset($splittedString[$lastIndex]);
         $path = $this->buildPathNameFromArr($splittedString);
         $namespace = $this->buildNameSpaceFromArr($splittedString);
+        if($firstWord != "app") {
+            $path = "App/{$path}";
+            $namespace = "App\\{$namespace}";
+        }
         return [$name, $path, $namespace];
     }
 

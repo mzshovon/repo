@@ -2,6 +2,7 @@
 
 namespace Zaman\Repo\Classes;
 
+use Exception;
 use Illuminate\Support\Facades\File;
 
 class FileGenerator
@@ -91,6 +92,11 @@ class FileGenerator
         }
 
         File::ensureDirectoryExists(dirname($filePath));
+
+        if(File::exists($filePath)) {
+            throw new Exception("File already exists!");
+        }
+
         File::put($filePath, $content);
     }
 
