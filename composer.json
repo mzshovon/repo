@@ -1,6 +1,7 @@
 {
     "name": "mzshovon/auto-repo",
     "description": "Single command repo generation for Laravel",
+    "keywords": ["repo", "repository", "contract", "laravel"],
     "type": "library",
     "license": "MIT",
     "autoload": {
@@ -24,5 +25,7 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^9.0"
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
