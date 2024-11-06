@@ -11,7 +11,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Mzshovon\\AutoRepo\\": "tests/"
+            "Mzshovon\\AutoRepo\\Tests": "tests/"
         }
     },
     "authors": [
