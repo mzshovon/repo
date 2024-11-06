@@ -29,6 +29,8 @@ Please make sure to cache the config after register providers.
 php artisan config:cache
 ``` 
 
+No need to bind! Just use your contract to access repository instances from anywhere.
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
