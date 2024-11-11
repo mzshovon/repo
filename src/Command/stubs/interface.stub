@@ -2,7 +2,7 @@
 
 namespace {{ namespace }};
 
-interface {{ className }}RepositoryInterface
+interface {{ className }}{{ definition }}Interface
 {
     public function all();
     public function find($id);

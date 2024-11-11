@@ -28,8 +28,19 @@ class RepoGenerate extends Command
     public function handle()
     {
         $templateBuild = new TemplateBuilder;
+        $isModel = false;
+        $isService = false;
         $name = $this->argument('name');
-        $isModel = $this->option('m');
+        $askForModel = $this->ask('Do you want to bind model?', "yes");
+
+        if(strtolower($askForModel) == "yes") {
+            $isModel =  true;
+        } else {
+            $askForService = $this->ask('Do you want to bind service?', "yes");
+            if(strtolower($askForService) == "yes") {
+                $isService =  true;
+            }
+        }
 
         try {
             $validateName = $this->validateString($name);
@@ -38,6 +49,9 @@ class RepoGenerate extends Command
             }
             if($isModel) {
                 $templateBuild->setModel($isModel);
+            }
+            if($isService) {
+                $templateBuild->setService($isService);
             }
             $templateBuild = $templateBuild->generate();
             if($templateBuild) {

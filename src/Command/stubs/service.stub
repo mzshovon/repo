@@ -2,11 +2,9 @@
 
 namespace {{ namespace }};
 
-use App\Models\{{ model }};
+use {{ interfaceNamespace }}\{{ className }}ServiceInterface;
 
-use {{ interfaceNamespace }}\{{ className }}RepositoryInterface;
-
-class {{ className }}Repository implements {{ className }}RepositoryInterface
+class {{ className }}Service implements {{ className }}ServiceInterface
 {
     public function all()
     {

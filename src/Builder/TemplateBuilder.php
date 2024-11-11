@@ -13,9 +13,19 @@ final class TemplateBuilder
     public string $contractName;
 
     /**
+     * @var string
+     */
+    public string $contractDefinition = "Repository";
+
+    /**
      * @var string|null
      */
     public ?string $modelName;
+
+    /**
+     * @var string|null
+     */
+    public ?string $serviceName;
 
     /**
      * @var string
@@ -33,6 +43,11 @@ final class TemplateBuilder
     public bool $hasModel = false;
 
     /**
+     * @var bool
+     */
+    public bool $hasService = false;
+
+    /**
      * @var string|null
      */
     public ?string $modelPathName;
@@ -40,7 +55,17 @@ final class TemplateBuilder
     /**
      * @var string|null
      */
+    public ?string $servicePathName;
+
+    /**
+     * @var string|null
+     */
     public ?string $modelNameSpace;
+
+    /**
+     * @var string|null
+     */
+    public ?string $serviceNameSpace;
 
     public readonly AttributeGenerator $attributeGenerator;
 
@@ -64,6 +89,18 @@ final class TemplateBuilder
     {
         $this->hasModel = $hasModel;
         $this->setModelRepository($this->contractName);
+        return $this;
+    }
+
+    /**
+     * @param bool $hasModel
+     *
+     * @return TemplateBuilder
+     */
+    function setService(bool $hasService) : TemplateBuilder
+    {
+        $this->hasService = $hasService;
+        $this->setServiceRepository($this->contractName);
         return $this;
     }
 
@@ -122,6 +159,33 @@ final class TemplateBuilder
     }
 
     /**
+     *
+     * @return string
+     */
+    function getServiceName() : string
+    {
+        return $this->serviceName;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    function getServicePath() : string
+    {
+        return $this->servicePathName;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    function getServiceNameSpace() : string
+    {
+        return $this->serviceNameSpace;
+    }
+
+    /**
      * @param string $contractName
      *
      * @return TemplateBuilder
@@ -152,6 +216,22 @@ final class TemplateBuilder
     }
 
     /**
+     * @param string $name
+     *
+     * @return TemplateBuilder
+     */
+    function setServiceRepository(string $name) : TemplateBuilder
+    {
+        [$serviceRepositoryName, $path, $namespace] = (new AttributeGenerator)
+                ->getServiceRepositoryAttribute($name);
+        $this->serviceName = $serviceRepositoryName;
+        $this->servicePathName = $path;
+        $this->serviceNameSpace = $namespace;
+        $this->contractDefinition = "Service";
+        return $this;
+    }
+
+    /**
      * @return void
      */
     function generateContract() : void
@@ -160,10 +240,12 @@ final class TemplateBuilder
         $name = $this->getContractName();
         $path = $this->getContractPath();
         $namespace = $this->getContractNameSpace();
+        $definition = $this->contractDefinition;
         $fileGeneratorClass->generateContract(
             $name,
             $path,
             $namespace,
+            $definition
         );
     }
 
@@ -186,6 +268,24 @@ final class TemplateBuilder
     }
 
     /**
+     * @return void
+     */
+    function generateService() : void
+    {
+        $fileGeneratorClass = new FileGenerator;
+        $name = $this->getServiceName();
+        $path = $this->getServicePath();
+        $namespace = $this->getServiceNameSpace();
+        $contractNameSpace = $this->getContractNameSpace();
+        $fileGeneratorClass->generateServiceRepository(
+            $name,
+            $path,
+            $namespace,
+            $contractNameSpace,
+        );
+    }
+
+    /**
      * @return bool
      */
     function generate() : bool
@@ -193,6 +293,9 @@ final class TemplateBuilder
         $this->generateContract();
         if($this->hasModel) {
             $this->generateModel();
+        }
+        if($this->hasService) {
+            $this->generateService();
         }
         return true;
     }

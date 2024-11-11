@@ -9,5 +9,9 @@ return [
         "path" => "App/Models/Repositories",
         "namespace" => "App\\Models\\Repositories",
     ],
+    "service" => [
+        "path" => "App/Services",
+        "namespace" => "App\\Services",
+    ],
 ];
 

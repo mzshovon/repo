@@ -44,6 +44,21 @@ class AttributeGenerator
      *
      * @return array
      */
+    function getServiceRepositoryAttribute(string $name) : array
+    {
+        [$serviceRepositoryName, $path, $namespace] = [
+            ucfirst($name),
+            $this->getDefaultServicePath(),
+            $this->getDefaultServiceNamespace()
+        ];
+        return [$serviceRepositoryName, $path, $namespace];
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return array
+     */
     private function parseAndSetAttribute(string $name) : array
     {
         $splittedString = explode("/", $name);
@@ -99,6 +114,14 @@ class AttributeGenerator
     /**
      * @return string
      */
+    private function getDefaultServicePath() : string
+    {
+        return config('repo-template.service.path');
+    }
+
+    /**
+     * @return string
+     */
     private function getDefaultContractNamespace() : string
     {
         return config('repo-template.interface.namespace');
@@ -110,6 +133,13 @@ class AttributeGenerator
     private function getDefaultModelNamespace() : string
     {
         return config('repo-template.model.namespace');
+    }
 
+    /**
+     * @return string
+     */
+    private function getDefaultServiceNamespace() : string
+    {
+        return config('repo-template.service.namespace');
     }
 }
