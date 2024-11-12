@@ -19,11 +19,16 @@ Great! Now your setup is done and you are ready to generate repository lifecycle
 ```bash
 # For only generate interface with specific functions
 php artisan generate:repo Test
-
-# For interface-model repository binding
-php artisan generate:repo Test --m
 ``` 
+Then it will ask for:
+```bash
+Do you want to bind model?
+> yes # It will generate the model repo
+If it is "no" Then it will ask for:
 
+Do you want to bind model?
+> yes # It will generate the service repo
+```
 Please make sure to cache the config after register providers.
 ```bash
 php artisan config:cache
