@@ -24,8 +24,9 @@ Then it will ask for:
 ```bash
 Do you want to bind model?
 > yes # It will generate the model repo
+```
 If it is "no" Then it will ask for:
-
+```bash
 Do you want to bind model?
 > yes # It will generate the service repo
 ```
