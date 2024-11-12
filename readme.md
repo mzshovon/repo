@@ -27,7 +27,7 @@ Do you want to bind model?
 ```
 If it is "no" Then it will ask for:
 ```bash
-Do you want to bind model?
+Do you want to bind service?
 > yes # It will generate the service repo
 ```
 Please make sure to cache the config after register providers.
