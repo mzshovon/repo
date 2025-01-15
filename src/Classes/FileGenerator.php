@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\File;
 
 class FileGenerator
 {
-    const DEFAULT_CONTRACT_STUB = "/../command/stubs/interface.stub";
-    const DEFAULT_MODEL_STUB = "/../command/stubs/model.stub";
-    const DEFAULT_SERVICE_STUB = "/../command/stubs/service.stub";
+    const DEFAULT_CONTRACT_STUB = "/../Command/stubs/interface.stub";
+    const DEFAULT_MODEL_STUB = "/../Command/stubs/model.stub";
+    const DEFAULT_SERVICE_STUB = "/../Command/stubs/service.stub";
     const BIND_CONFIG_PATH = "/../config/bind-repository.php";
 
     /**
