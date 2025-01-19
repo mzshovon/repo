@@ -2,15 +2,15 @@
 
 return [
     "interface" => [
-        "path" => "App/Contracts",
+        "path" => "app/Contracts",
         "namespace" => "App\\Contracts",
     ],
     "model" => [
-        "path" => "App/Models/Repositories",
+        "path" => "app/Models/Repositories",
         "namespace" => "App\\Models\\Repositories",
     ],
     "service" => [
-        "path" => "App/Services",
+        "path" => "app/Services",
         "namespace" => "App\\Services",
     ],
 ];
